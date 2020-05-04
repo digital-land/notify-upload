@@ -12,4 +12,5 @@ def send(file, email):
         template_id=template_id, # required UUID string
         personalisation={'link_to_file': prepare_upload(file)}
     )
+    logging.info(response.__dict__)
     logging.info("done sending email notification")
