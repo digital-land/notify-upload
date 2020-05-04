@@ -21,6 +21,9 @@ from user import User
 
 import notify
 
+__import__('rpdb').set_trace()
+# __import__('pdb').set_trace()
+
 ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif", "csv"}
 
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
