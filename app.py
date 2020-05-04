@@ -1,5 +1,6 @@
 # Python standard libraries
 import logging
+
 logging.basicConfig(level=logging.INFO)
 import json
 import os
@@ -82,7 +83,7 @@ def login():
 
     logging.info("---> /login request.base_url: %s", request.base_url)
     # __import__('pdb').set_trace()
-    secure_base_url = request.base_url.replace('http://', 'https://')
+    secure_base_url = request.base_url.replace("http://", "https://")
     logging.info("---> secure request.base_url: %s", secure_base_url)
 
     # Use library to construct the request for Google login and provide
@@ -92,7 +93,7 @@ def login():
         redirect_uri=secure_base_url + "/callback",
         scope=["openid", "email", "profile"],
     )
-    logging.info("request_uri: %s",  request_uri)
+    logging.info("request_uri: %s", request_uri)
     return redirect(request_uri)
 
 
@@ -219,4 +220,5 @@ def allowed_file(filename):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, ssl_context="adhoc", host="0.0.0.0", port=port)
+
