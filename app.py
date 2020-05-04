@@ -80,7 +80,9 @@ def login():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-    logging.info("--->/login request.base_url: %s", request.base_url)
+    logging.info("---> /login request.base_url: %s", request.base_url)
+    secure_base_url = request.base_url.replace('http://', 'https://')
+    logging.info("---> secure request.base_url: %s", request.base_url)
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
