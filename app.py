@@ -82,16 +82,16 @@ def login():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-    logging.info("---> /login request.base_url: %s", request.base_url)
-    # __import__('pdb').set_trace()
-    secure_base_url = request.base_url.replace("http://", "https://")
-    logging.info("---> secure request.base_url: %s", secure_base_url)
+    # logging.info("---> /login request.base_url: %s", request.base_url)
+    # # __import__('pdb').set_trace()
+    # secure_base_url = request.base_url.replace("http://", "https://")
+    # logging.info("---> secure request.base_url: %s", secure_base_url)
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=secure_base_url + "/callback",
+        redirect_uri=request.base_url + "/callback",
         scope=["openid", "email", "profile"],
     )
     logging.info("request_uri: %s", request_uri)
