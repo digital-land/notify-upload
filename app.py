@@ -81,8 +81,9 @@ def login():
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
     logging.info("---> /login request.base_url: %s", request.base_url)
+    __import__('pdb').set_trace()
     secure_base_url = request.base_url.replace('http://', 'https://')
-    logging.info("---> secure request.base_url: %s", request.base_url)
+    logging.info("---> secure request.base_url: %s", secure_base_url)
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
@@ -91,6 +92,7 @@ def login():
         redirect_uri=secure_base_url + "/callback",
         scope=["openid", "email", "profile"],
     )
+    logging.info("request_uri: %s",  request_uri)
     return redirect(request_uri)
 
 
@@ -103,6 +105,8 @@ def callback():
     # things on behalf of a user
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
+
+    logging.info("in callback")
 
     # Prepare and send a request to get tokens! Yay tokens!
     token_url, headers, body = client.prepare_token_request(
