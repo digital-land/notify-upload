@@ -7,6 +7,7 @@ notifications_client = NotificationsAPIClient(os.getenv("NOTIFY_API_KEY"))
 template_id = os.getenv("NOTIFY_TEMPLATE_ID")
 
 def send(file, email):
+    logging.info("email %s", email)
     response = notifications_client.send_email_notification(
         email_address=email, # required string
         template_id=template_id, # required UUID string
