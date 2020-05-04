@@ -21,7 +21,6 @@ from user import User
 
 import notify
 
-__import__('rpdb').set_trace()
 # __import__('pdb').set_trace()
 
 ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif", "csv"}
@@ -151,6 +150,7 @@ def callback():
 
 @app.route("/notify-upload", methods=["GET", "POST"])
 def notify_upload_file():
+    __import__('rpdb').set_trace()
     if current_user.is_authenticated:
         if request.method == "POST":
 
