@@ -1,4 +1,6 @@
 # Python standard libraries
+import logging
+logging.basicConfig(level=logging.INFO)
 import json
 import os
 import sqlite3
