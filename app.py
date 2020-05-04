@@ -58,6 +58,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
+    logging.info("--> index")
     if current_user.is_authenticated:
         return (
             "<p>Hello, {}! You're logged in! Email: {}</p>"
