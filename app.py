@@ -81,7 +81,7 @@ def login():
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
     logging.info("---> /login request.base_url: %s", request.base_url)
-    __import__('pdb').set_trace()
+    # __import__('pdb').set_trace()
     secure_base_url = request.base_url.replace('http://', 'https://')
     logging.info("---> secure request.base_url: %s", secure_base_url)
 
