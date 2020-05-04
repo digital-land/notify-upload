@@ -19,6 +19,8 @@ import requests
 from db import init_db_command
 from user import User
 
+__import__('rpdb').set_trace()
+
 import notify
 
 ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif", "csv"}
