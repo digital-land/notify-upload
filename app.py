@@ -1,4 +1,7 @@
 # Python standard libraries
+import logging
+
+logging.basicConfig(level=logging.INFO)
 import json
 import os
 import sqlite3
@@ -20,6 +23,8 @@ from db import init_db_command
 from user import User
 
 import notify
+
+# __import__('pdb').set_trace()
 
 ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif", "csv"}
 
@@ -53,6 +58,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
+    logging.info("--> index")
     if current_user.is_authenticated:
         return (
             "<p>Hello, {}! You're logged in! Email: {}</p>"
@@ -76,14 +82,24 @@ def login():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
+    # logging.info("---> /login request.base_url: %s", request.base_url)
+    # # __import__('pdb').set_trace()
+    # secure_base_url = request.base_url.replace("http://", "https://")
+    # logging.info("---> secure request.base_url: %s", secure_base_url)
+
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
+        redirect_uri=make_ssl(request.base_url) + "/callback",
         scope=["openid", "email", "profile"],
     )
+    logging.info("request_uri: %s", request_uri)
     return redirect(request_uri)
+
+
+def make_ssl(url):
+    return url.replace('http://','https://')
 
 
 @app.route("/login/callback")
@@ -96,11 +112,13 @@ def callback():
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
 
+    logging.info("in callback")
+
     # Prepare and send a request to get tokens! Yay tokens!
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
-        authorization_response=request.url,
-        redirect_url=request.base_url,
+        authorization_response=make_ssl(request.url),
+        redirect_url=make_ssl(request.base_url),
         code=code,
     )
     token_response = requests.post(
@@ -148,6 +166,7 @@ def callback():
 
 @app.route("/notify-upload", methods=["GET", "POST"])
 def notify_upload_file():
+    # __import__('rpdb').set_trace()
     if current_user.is_authenticated:
         if request.method == "POST":
 
@@ -206,4 +225,4 @@ def allowed_file(filename):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, ssl_context="adhoc")
+    app.run(debug=True, host="0.0.0.0", port=port)
