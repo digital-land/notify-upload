@@ -24,8 +24,6 @@ from user import User
 
 import notify
 
-# __import__('pdb').set_trace()
-
 ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif", "csv"}
 
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
@@ -81,11 +79,6 @@ def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
-
-    # logging.info("---> /login request.base_url: %s", request.base_url)
-    # # __import__('pdb').set_trace()
-    # secure_base_url = request.base_url.replace("http://", "https://")
-    # logging.info("---> secure request.base_url: %s", secure_base_url)
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
