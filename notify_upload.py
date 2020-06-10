@@ -35,7 +35,7 @@ def notify_upload():
 
 
 def input_form():
-    return render_template("main.html")
+    return render_template("main.html", email="")
 
 
 def allowed_file(filename):

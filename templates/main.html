@@ -5,7 +5,7 @@
     <p><b>{{ message }}</b></p>
     {% endfor %}
 <form method=post enctype=multipart/form-data>
-    Recipient email: <input type=text name=email><br>
+    Recipient email: <input type=text name=email value={{ email }}><br>
   <input type=file name=file></input><br>
   <input type=submit value=Upload></input>
 </form>

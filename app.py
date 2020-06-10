@@ -22,7 +22,7 @@ import requests
 from db import init_db_command
 from user import User
 
-import notify
+import notify_upload
 
 ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif", "csv"}
 
@@ -159,50 +159,11 @@ def callback():
 
 @app.route("/notify-upload", methods=["GET", "POST"])
 def notify_upload_file():
-    # __import__('rpdb').set_trace()
     if current_user.is_authenticated:
-        if request.method == "POST":
-
-            # check if the post request has the recipient email
-            if "email" not in request.form:
-                flash("No recipient email")
-                return redirect(request.url)
-            email = request.form.get("email")
-
-            # check if the post request has the file part
-            if "file" not in request.files:
-                flash("No file part")
-                return redirect(request.url)
-            file = request.files["file"]
-            # if user does not select file, browser also
-            # submit an empty part without filename
-            if file.filename == "":
-                flash("No selected file")
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                notify.send(file.stream, email)
-                return """
-                <!doctype html>
-                <title>Uploaded File</title>
-                <h1>Uploaded File</h1>
-                URL has been sent via email
-            """
-        return input_form()
-    else:
-        return '<a class="button" href="/login">Google Login</a>'
-
+        return notify_upload.notify_upload()
 
 def input_form():
-    return f"""
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      Recipient email: <input type=text name=email value={current_user.email}><br>
-      <input type=file name=file></input><br>
-      <input type=submit value=Upload></input>
-    </form>
-    """
+    return render_template("main.html", email=current_user.email)
 
 
 @app.route("/logout")
